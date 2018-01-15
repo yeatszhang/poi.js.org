@@ -169,7 +169,7 @@ Only required when `format` is set to `umd`, basically it's the same as [output.
 Type: `string`<br>
 Default: `static`
 
-Copy files in this folder to the root of `dist` folder, eg: `./static/favicon.ico` will be copied to `./dist/favicon.ico`.
+Copy files in static folder `/static`  to the root of `dist` folder, eg: `./static/favicon.ico` will be copied to `./dist/favicon.ico`.
 
 ### copy
 
@@ -229,7 +229,7 @@ Mutate raw webpack config and you must return the updated config:
 
 ```js
 module.exports = {
-  webpack(config) {
+  webpack(config, webpack) {
     config.plugins = config.plugins.filter(removeSomePlugin) // ...
     return config
   }
@@ -244,7 +244,7 @@ Using [webpack-chain](https://github.com/mozilla-rpweb/webpack-chain) to modify 
 
 ```js
 module.exports = {
-  extendWebpack(config) {
+  extendWebpack(config, webpack) {
     // Remove progress bar when building in production
     config.plugins.delete('progress-bar')
   }
@@ -277,7 +277,13 @@ Show progress bar while building, you can disable it by setting it to `false`.
 Type: `boolean`<br>
 Default: `true`
 
-Automatically split vendor code (all imported modules in `node_modules`) into `vendor` chunk.
+Automatically split vendor code (all imported modules in `node_modules`) into `vendor` chunk. Will use `InlineManifestPlugin` inline `manifest`
+
+### dllVendor
+
+Type: `Array`
+
+通过 dll plugin 加速 production build, 如果不为空则会自动使用 dllPlugin
 
 ### minimize
 

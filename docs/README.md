@@ -164,7 +164,7 @@ You can set webpack entry via CLI arguments or `entry` property in config file. 
 
 ### Code splitting
 
-We enabled code splitting for vendor code and app code by default in all modes other than `test` mode (poi test), you can set `vendor` option to `false` to disable it. And by default all required modules in `node_modules` will be split.
+We enabled code splitting for vendor code and app code by default in all modes other than `test` mode (poi test), you can set `vendor` option to `false` to disable it. And by default all required modules in `node_modules` will be split. Will use `InlineManifestPlugin` inline `manifest`, 需要在模板中加入标记 `<%= htmlWebpackPlugin.files.webpackManifest %>`
 
 To lazy-load components, you can use [dynamic import](https://webpack.js.org/guides/code-splitting-async/#dynamic-import-import-) syntax:
 
@@ -172,6 +172,12 @@ To lazy-load components, you can use [dynamic import](https://webpack.js.org/gui
 const Home = import('./views/homepage')
 // This returns a Promise
 ```
+
+### Dll 加速
+
+加入 dllVendor 配置项，可选加速 production build。新增对应的 poi dll 命令。
+
+参考 [https://webpack.js.org/plugins/dll-plugin/](https://webpack.js.org/plugins/dll-plugin/)
 
 ### Polyfills
 
@@ -200,8 +206,9 @@ You can directly mutate webpack config via `webpack` option:
 ```js
 // poi.config.js
 module.exports = {
-  webpack(config) {
+  webpack(config, webpack) {
     config.plugins.push(new MyWebpackPlugin())
+    config.plugins.push(new webpack.ProvidePlugin({}))
     return config // <-- Important, must return it
   }
 }
@@ -211,9 +218,13 @@ Or change webpack config using [webpack-chain](https://github.com/mozilla-rpweb/
 
 ```js
 module.exports = {
-  extendWebpack(config) {
+  extendWebpack(config, webpack) {
     // Disable progress bar while building
     config.plugins.delete('progress-bar')
+    config.plugin('provider')
+        .use(webpack.ProvidePlugin, [{
+          _: 'lodash'
+        }])
   }
 }
 ```
@@ -238,7 +249,7 @@ module.exports = {
 }
 ```
 
-Check out the [built-in template](https://github.com/egoist/poi/blob/master/packages/poi/lib/index.ejs) file we use, the template supports the [lodash.template](https://lodash.com/docs/4.17.4#template) syntax by default. To disable generating html file, you can set `html` to `false`.
+Check out the [built-in template](https://github.com/yeatszhang/poi/blob/master/packages/poi/lib/index.ejs) file we use, the template supports the [lodash.template](https://lodash.com/docs/4.17.4#template) syntax by default. To disable generating html file, you can set `html` to `false`.
 
 The options for html-webpack-plugin are available in template file as `htmlWebpackPlugin.options` and you can use `htmlWebpackPlugin.options.pkg` to access the data of `package.json`.
 
