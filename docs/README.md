@@ -16,9 +16,9 @@ Install *Poi*:
 
 ```bash
 # Either globally
-yarn global add poi
+yarn global add @qnpm/poi
 # Or locally (preferred)
-yarn add poi --dev
+yarn add @qnpm/poi --dev
 ```
 
 Then populating an `index.js`:
@@ -99,7 +99,7 @@ CLI options.
 
 #### req
 
-The `require` function but context directory is the path to `node_modules/poi/lib`, which means you can use it to load poi's dependencies, like `webpack`.
+The `require` function but context directory is the path to `node_modules/@qnpm/poi/lib`, which means you can use it to load poi's dependencies, like `webpack`.
 
 ### Babel
 
@@ -240,10 +240,18 @@ Type: `Object` `Array` `boolean`
 ```js
 module.exports = {
   page: {
+    name: 'client', // 决定了默认的entry、url、html配置项。page为数组时必填。
+    entry: './src/main.js', // 配置页面入口，会覆盖options.entry
+    assets: {
+      append: [],
+      prepend: []
+    }, // 需要注入到html中的资源
+    url: {}, // 尽在development环境中生效，在devServer中挂载符合规则的路由
     html: {
       // `pkg` is the data from `package.json`
       title: pkg.productName || pkg.name,
       description: pkg.description,
+      filename: '', // 用于配置html输出的位置，一般来说development不需要配置，production配置为html的生成路径
       template: '', // Defaults to $cwd/index.ejs if it exists, otherwise use built-in template
       pkg: {} // All package.json data
     }
