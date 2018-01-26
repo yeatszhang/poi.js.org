@@ -239,12 +239,14 @@ Type: `Object` `Array` `boolean`
 
 ```js
 module.exports = {
-  html: {
-    // `pkg` is the data from `package.json`
-    title: pkg.productName || pkg.name,
-    description: pkg.description,
-    template: '', // Defaults to $cwd/index.ejs if it exists, otherwise use built-in template
-    pkg: {} // All package.json data
+  page: {
+    html: {
+      // `pkg` is the data from `package.json`
+      title: pkg.productName || pkg.name,
+      description: pkg.description,
+      template: '', // Defaults to $cwd/index.ejs if it exists, otherwise use built-in template
+      pkg: {} // All package.json data
+    }
   }
 }
 ```
@@ -260,11 +262,11 @@ Set custom filename for js, css, static files:
 ```js
 module.exports = {
   filename: {
-    js: '[name].[chunkhash:8].js',
-    css: 'style.css',
+    js: 'js/[name].[chunkhash:8].js',
+    css: 'js/style.css',
     images: 'assets/images/[name].[ext]',
     fonts: 'assets/fonts/[name].[ext]',
-    chunk: '[id].chunk.js'
+    chunk: 'js/[id].chunk.js'
   }
 }
 ```
@@ -288,7 +290,7 @@ See more details about [staticFolder](/options#staticfolder) and [copy](/options
 
 ### Define env variables
 
-By default you will have `process.env.NODE_ENV` defined.
+By default you will have `process.env.NODE_ENV` `process.env.PUBLIC_URL` defined.
 
 There're two ways to define env variables:
 

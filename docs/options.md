@@ -13,6 +13,65 @@ The path to entry file.
 
 We only read `pkg.main` if [`format`](#format) option is not set.
 
+### page
+
+Type: `booelan` `object` `Array` 
+
+webpack页面配置。开发环境会生成可以访问的url，生产环境会输出html文件。 
+page会覆盖entry的配置。设置为false则禁用该选项。设置为true则使用默认配置。
+
+#### name
+
+name的默认值为client。page为数组时，name是必填项。
+
+#### entry
+
+Type: `string` `Array` <br>
+Default: `pkg.main` `'./src/main.js'` `./src/pages/${name}/main.js` (`pkg` is the data of your `package.json`)
+
+The path to entry file.
+
+We only read `pkg.main` if [`format`](#format) option is not set.
+
+#### assets
+
+页面需要的assets
+
+```javascript
+{
+  // 需要在webpack资源前载入
+  prepend: [],
+  // 需要在webpack资源后载入
+  append: []
+}
+```
+
+#### url
+
+Type: `RegExp` `string` <br>
+Default:  `/^.*/` `^/${name}`
+
+该页面在devServer中对应的Url匹配规则。符合该规则的Url都会被重定向至对应的html。
+
+#### html
+
+Type: `Object` `Array` `boolean`
+
+Default value:
+
+```js
+{
+  // `pkg` indicates the data in `package.json`
+  title: pkg.title || pkg.productName || pkg.name,
+  description: pkg.description,
+  env: {}, // env option
+  filename: // default to index.html or $name.html
+  template: // defaults to $cwd/index.ejs or $cwd/template/$name.ejs if it exists, otherwise use built-in template,
+}
+```
+
+Options for [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) or an array of it. Set it to `false` to disable this plugin.
+
 ### dist
 
 Type: `string`<br>
@@ -106,24 +165,6 @@ Extract CSS into a single file.
   It defaults to `true` in production mode.
 </p>
 
-### html
-
-Type: `Object` `Array` `boolean`
-
-Default value:
-
-```js
-{
-  // `pkg` indicates the data in `package.json`
-  title: pkg.title || pkg.productName || pkg.name,
-  description: pkg.description,
-  env: {}, // env option
-  template: // defaults to $cwd/index.ejs if it exists, otherwise use built-in template,
-}
-```
-
-Options for [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) or an array of it. Set it to `false` to disable this plugin.
-
 ### inlineImageMaxSize
 
 Type: `number`<br>
@@ -141,11 +182,11 @@ filename of output files, eg:
 
 ```js
 filename: {
-  js: 'index.js',
-  css: 'style.css',
+  js: 'js/index.js',
+  css: 'css/style.css',
   fonts: 'assets/fonts/[name].[ext]',
   images: 'assets/images/[name].[ext]',
-  chunk: '[id].chunk.js'
+  chunk: 'js/[id].chunk.js'
 }
 ```
 
@@ -157,12 +198,6 @@ Default: `undefined`
 Exclude `[chunkhash]` from [output filename](https://webpack.js.org/configuration/output/#output-filename), you can use [filename](#filename) option to reach the same goal but this one is just simpler.
 
 By default we only *hash* filename when it's built in production mode and option `format` was not set.
-
-### moduleName
-
-Type: `string`
-
-Only required when `format` is set to `umd`, basically it's the same as [output.library](https://webpack.js.org/configuration/output/#output-library) in raw webpack config.
 
 ### staticFolder
 
@@ -205,14 +240,6 @@ module.exports = {
   }
 }
 ```
-
-### format
-
-Type: `string`<br>
-Default: `undefined`<br>
-Possible values: `cjs` `umd`
-
-Set the format of output bundle.
 
 ### sourceMap
 
@@ -307,19 +334,6 @@ Default: `undefined`
 In production mode, we will remove `dist/*` by default when the generated files contain hash like `vendor.f8rbdf92.js`. And there's hash by default for long-term caching purpose.
 
 To disable this, you can set it to `false`, to always enable this even if the filename does not contain hash, you can set it to `true`.
-
-### library
-
-Type: `boolean` `string`
-
-Build your app as a library.
-
-- `boolean`: Build in CommonJS format, output [filename](#filename) will default to current folder name in kebab case.
-- `string`: Build in UMD format, and we set [moduleName](#modulename) to its value. Output filename will default to the moduleName in kebab case.
-
-<p class="tip">
-  Note that [html](#html), [sourceMap](#sourcemap) are also disabled when building as library.
-</p>
 
 ## Development
 
