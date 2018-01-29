@@ -173,11 +173,7 @@ const Home = import('./views/homepage')
 // This returns a Promise
 ```
 
-### Dll 加速
 
-加入 dllVendor 配置项，可选加速 production build。新增对应的 poi dll 命令。
-
-参考 [https://webpack.js.org/plugins/dll-plugin/](https://webpack.js.org/plugins/dll-plugin/)
 
 ### Polyfills
 

@@ -88,9 +88,10 @@ Parsed CLI arguments.
 You can run middlewares in Poi commands, like adding a middleware to run some test runner in `poi test`:
 
 ```js
-poi.run('test', webpackConfig => {
+poi.run('test', (webpackConfig, webpack) => {
   // The `webpackConfig` is the actual webpack config object
   // Not the webpack-chain instance
+  // The `webpack` is a webpack package
   // This function will be invoked as the last step in the command
   doSomething()
 })

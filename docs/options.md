@@ -306,12 +306,6 @@ Default: `true`
 
 Automatically split vendor code (all imported modules in `node_modules`) into `vendor` chunk. Will use `InlineManifestPlugin` inline `manifest`
 
-### dllVendor
-
-Type: `Array`
-
-通过 dll plugin 加速 production build, 如果不为空则会自动使用 dllPlugin
-
 ### minimize
 
 Type: `boolean`<br>
