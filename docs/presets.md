@@ -99,3 +99,11 @@ poi.run('test', (webpackConfig, webpack) => {
 
 This middleware function could be sync or return a Promise.
 
+## 方法执行顺序
+
+* poi handleOptions default option处理
+* presets 逻辑  同步逻辑，比如修改 options
+* poi createConfig 默认config生成
+* presets中的extendWebpack
+* options中的extendWebpack
+* presets中的run方法

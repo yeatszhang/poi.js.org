@@ -36,7 +36,7 @@ new Vue({
 
 > *Note: Poi supports all frameworks but only Vue has built-in support, for other frameworks like React and Svelte etc. please use a [preset](https://github.com/egoist/poi/tree/master/packages) or see how to [configure](#config-file).*
 
-To develop this file, run `poi` in your terminal and you can open `http://localhost:4000` to preview!
+To develop this file, run `poi dev` in your terminal and you can open `http://localhost:4000` to preview!
 
 So far we get:
 
@@ -53,7 +53,7 @@ poi build
 To change the path of entry file:
 
 ```bash
-poi src/my-entry.js # development
+poi dev src/my-entry.js # development
 poi build src/my-entry.js # production
 ```
 
@@ -61,7 +61,7 @@ poi build src/my-entry.js # production
 
 There're **four** modes:
 
-- `poi`: Default command, run app in `development` mode
+- `poi dev`: Default command, run app in `development` mode
 - `poi build`: Build app in `production` mode
 - `poi test`: The `test` mode, by default it does nothing, but you can use it with some presets.
 - `poi watch`: Run app in webpack's `watch` mode
@@ -92,7 +92,7 @@ CLI options.
 
 `options.mode` is automatically injected depending on the command:
 
-- `options.mode === 'development'` in `poi`
+- `options.mode === 'development'` in `poi dev`
 - `options.mode === 'production'` in `poi build`
 - `options.mode === 'watch'` in `poi watch`
 - `options.mode === 'test'` in `poi test`
@@ -239,8 +239,14 @@ module.exports = {
     name: 'client', // 决定了默认的entry、url、html配置项。page为数组时必填。
     entry: './src/main.js', // 配置页面入口，会覆盖options.entry
     assets: {
-      append: [],
-      prepend: []
+      append: [
+        'js/test.css',
+        'js/test.js'
+      ],
+      prepend: [
+        'css/pageA.css',
+        'js/pageA.js'
+      ]
     }, // 需要注入到html中的资源
     url: {}, // 尽在development环境中生效，在devServer中挂载符合规则的路由
     html: {
@@ -257,7 +263,7 @@ module.exports = {
 
 Check out the [built-in template](https://github.com/yeatszhang/poi/blob/master/packages/poi/lib/index.ejs) file we use, the template supports the [lodash.template](https://lodash.com/docs/4.17.4#template) syntax by default. To disable generating html file, you can set `html` to `false`.
 
-The options for html-webpack-plugin are available in template file as `htmlWebpackPlugin.options` and you can use `htmlWebpackPlugin.options.pkg` to access the data of `package.json`.
+The options for html-webpack-plugin are available in template file as `htmlWebpackPlugin.options` and you can use `htmlWebpackPlugin.options.pkg` to access the data of `package.json`. `webpackConfig.output.publicPath` is webpack public url.
 
 ### Custom output filename
 
