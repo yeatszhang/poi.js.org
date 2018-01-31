@@ -14,6 +14,12 @@ Instead, as many people use `src` folder as the main directory for their app, yo
 import Header from '@/components/Header.vue'
 ```
 
+注意less的资源引入方式，参考 [https://github.com/webpack-contrib/less-loader#webpack-resolver](https://github.com/webpack-contrib/less-loader#webpack-resolver)
+
+```less
+@import "~@/styles/variables.less";
+```
+
 Please note, the use of alias will make path tips and IDE IntelliSense no longer work.  
 
 You can solve this problem by configuring [jsconfig.json](https://code.visualstudio.com/docs/languages/jsconfig#_using-webpack-aliases) if you're using VSCode:
