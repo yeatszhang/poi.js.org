@@ -1,6 +1,6 @@
 # Presets
 
-Check out all available presets: https://github.com/egoist/poi/tree/master/packages
+Check out all available presets: https://git.skyeye.world/FE/poi/tree/master/packages
 
 ## Use a preset
 
